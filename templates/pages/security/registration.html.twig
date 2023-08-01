@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+{% block metades %}
+<meta name="description" content="">
+
+{% endblock %}
+{% block title %}
+App- Inscription
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    
+</style>
+
+{% endblock %}
+{% block body %}
+<div class="container bg-white border-rounded rounded-3 px-5 py-3 my-5" style="max-width:600px">
+    <h1 class="mt-4">Formulaire d'inscription</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.nickName) }}
+
+    {{ form_row(form.plainPassword, {
+
+    }) }}
+
+
+    <button type="submit" class="btn btn-primary">Inscrivez vous</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
