@@ -2,6 +2,7 @@
 
 {% block title %}Welcome{% endblock %}
 
+
 {% block body %}
    <div class="container mt-5">
     <div class="jumbotron">
@@ -28,4 +29,13 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Inscription</a>
         </p>
     </div></div>
+
+    {% endblock %}
+    {% block javascripts %}
+    {{ parent()}}
+    <script>
+        const link = document.querySelector('#home');
+        link.classList.add('active');
+        console.log(link);
+    </script>
     {% endblock %}

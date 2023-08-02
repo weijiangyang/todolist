@@ -14,6 +14,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * This function allows the user to connecter sur the site
+     *
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/connextion', name: 'security_login', methods:['GET','POST'])]
     public function index(AuthenticationUtils $utils): Response
     {
@@ -23,7 +29,7 @@ class SecurityController extends AbstractController
         ]);
     }
     /**
-     * This function permet the current user to deconnect from the site 
+     * This function allows the current user to deconnect from the site 
      *
      * @return Response
      */
@@ -33,6 +39,13 @@ class SecurityController extends AbstractController
         // nothing to do 
     }
 
+    /**
+     * This function allows a new user to register on  the site 
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/inscription', name: 'security_registration', methods: ['GET', 'POST'])]
     public function registration( Request $request, EntityManagerInterface $em): Response
     {
@@ -49,6 +62,7 @@ class SecurityController extends AbstractController
             
             return $this->redirectToRoute('security_login');
         }
+        
         return $this->render('pages/security/registration.html.twig', [
             'form' => $form->createView()
         ]);

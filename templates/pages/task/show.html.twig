@@ -17,22 +17,20 @@ Detail de tache
 {% block body %}
 <div class="container  bg-white border-rounded rounded-3 px-5 py-3 my-5">
     <h1 class="mt-4">{{ task.name }}</h1>
-    <p class="text-warning fst-italic mt-2">created at {{ task.createdAt | date('d/m/Y') }} by {{ task.creater.nickName }}</p>
-
+    <p class="text-warning fst-italic mt-2">created at {{ task.createdAt | date('d/m/Y') }} by <strong>{{ task.creater.nickName }}</strong></p>
+    
+    {# display the indication of the action #}
     {% for message in app.flashes('success') %}
     <p class="alert alert-success">{{ message }}</p>
     {% endfor %}
+
+    {# display the details of the task #}
     <div class="row">
         <div class="col-md-4">
             <p class="mt-4"><strong>Priority: </strong>{{ task.priority }} </p>
             <p class="mt-4"><strong>Status: </strong>{{ task.status}} </p>
-
-            
-
             <p class="mt-4"><strong>Category: </strong>{{ task.category }} </p>
             <p class="mt-4"><strong>Date Limite: </strong>{{ task.finishAt | date('d/m/Y')}} </p>
-            
-
         </div>
 
         <div class="col-md-7 ">
@@ -42,11 +40,7 @@ Detail de tache
                 <p class="fst-italic">{{ user.nickName }} </p>
                 {% endfor %}
             </div>
-            
-
         </div>
-
     </div>
-
 </div>
 {% endblock %}

@@ -35,7 +35,7 @@ Modifier la tâche {{ task.id}}
     </div>
 
     <div class="form-group my-3">
-
+{# for disabled the input for 'finish time' #}
         {{ form_widget(form.finishAt,{"attr": {"class": "d-none"}} ) }}
         <div class="form-error text-danger">
             {{ form_errors(form.finishAt)}}
@@ -63,6 +63,7 @@ Modifier la tâche {{ task.id}}
 
     <div class="form-group my-3">
 
+{# for disabled the input for 'priority' #}
         {{ form_widget(form.priority,{'attr':{'class':'d-none'}})}}
         <div class="form-error text-danger">
             {{ form_errors(form.priority)}}
@@ -80,8 +81,6 @@ Modifier la tâche {{ task.id}}
         </div>
 
     </div>
-
-
 
     <div class="form-group my-3">
         {{ form_row(form._token) }}
