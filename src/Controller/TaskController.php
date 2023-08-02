@@ -29,8 +29,11 @@ class TaskController extends AbstractController
 
     #[Route('/task/nouveau', name: 'task_new', methods: ['GET', 'POST'], priority: 1)]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $em, MailerInterface $mailer)
+    public function new(Request $request,EntityManagerInterface $em, MailerInterface $mailer,MailService $mail)
     {
+        /*
+         @var Task
+        */ 
         $task = new Task;
 
         $form = $this->createForm(TaskType::class, $task);
@@ -47,19 +50,19 @@ class TaskController extends AbstractController
                 'Votre tâche a bien été crée!'
             );
 
-            $email = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            
+            $operators = $task->getOperateurs();
+            foreach($operators as $operator){
+                $emailUser = $operator->getEmail();
+                $mail->sendEmail(
+                    'weijiangyanglaval@gmail.com',
+                    'Une new tache No°'.$task->getId(),
+                    'pages/emails/newTache.html.twig',
+                    ['task' => $task],
+                    $emailUser
+                );
+            }
 
-            $mailer->send($email);
- 
             return $this->redirectToRoute('task_show', [
                'id'=> $task->getId()
             ]);
@@ -107,16 +110,12 @@ class TaskController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $task = $form->getData();
-                
-                    
-                        
                         $task->setUpdatedAt(new \DateTime());
-                        
                         $em->persist($task);
                         $em->flush();
                         $this->addFlash(
                             'success',
-                            'Votre ingrédient a bien été modifié avec succès!'
+                            'Votre tâche a bien été modifié avec succès!'
                         );
 
                         return $this->redirectToRoute('task_index', [

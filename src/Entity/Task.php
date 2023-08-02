@@ -56,6 +56,12 @@ class Task
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tasksAfaire')]
     private Collection $operateurs;
 
+    #[ORM\Column]
+    private ?bool $isLate = false;
+
+    #[ORM\Column]
+    private ?bool $isWarned = false;
+
     
 
     public function __construct()
@@ -212,6 +218,30 @@ class Task
     public function removeOperateur(User $operateur): static
     {
         $this->operateurs->removeElement($operateur);
+
+        return $this;
+    }
+
+    public function isIsLate(): ?bool
+    {
+        return $this->isLate;
+    }
+
+    public function setIsLate(bool $isLate): static
+    {
+        $this->isLate = $isLate;
+
+        return $this;
+    }
+
+    public function isIsWarned(): ?bool
+    {
+        return $this->isWarned;
+    }
+
+    public function setIsWarned(bool $isWarned): static
+    {
+        $this->isWarned = $isWarned;
 
         return $this;
     }

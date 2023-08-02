@@ -16,7 +16,7 @@ class Status
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name = 'en-attente';
 
     #[ORM\OneToMany(mappedBy: 'status', targetEntity: Task::class)]
     private Collection $tasks;

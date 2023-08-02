@@ -59,12 +59,22 @@
                 
                 <tr class="table-light"></tr>
 
-
+                {% if task.isLate %}
+                <td><i class="fa-solid fa-bell" style="color:red"></i>{{ task.id }}</td>
+                {% else %}
                 <td>{{ task.id }}</td>
-                <td class="fw-bold" style="color:firebrick; font-size:1.1rem">{{ task.name }}</td>
+                {% endif %}
+                
+                
+                <td class="fw-bold" style="color:firebrick; font-size:1.1rem">{{ task.name | capitalize }}</td>
 
-
-                <td style="color: rgb(209, 105, 20); font-weight:700">{{ task.status }}</td>
+                {% if task.status.name is same as 'en-cours' %}
+                <td style="color: rgb(20, 209, 83); font-weight:700">{{ task.status }}</td>
+                {% else %}
+                <td style="color: rgb(20, 102, 209); font-weight:700">{{ task.status }}</td>
+                {% endif %}
+                
+                
 
 
                 <td>{{ task.priority }}</td>
