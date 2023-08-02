@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @extends ServiceEntityRepository<Task>
@@ -19,6 +20,23 @@ class TaskRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
+    }
+
+    public function findTask(): array
+    {
+       
+            $query =  $this->createQueryBuilder('t')
+                ->where("t.status.name != 'fini' ")
+               
+               
+                ->orderBy('t.createdAt', 'DESC');
+    
+           
+        
+
+
+        return $query->getQuery()
+            ->getResult();
     }
 
 //    /**

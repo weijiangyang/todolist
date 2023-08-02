@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -47,10 +49,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'createur', targetEntity: Task::class)]
+    private Collection $taches;
+
+    #[ORM\OneToMany(mappedBy: 'creater', targetEntity: Task::class)]
+    private Collection $tasks;
+
+    #[ORM\ManyToMany(targetEntity: Task::class, mappedBy: 'operateurs')]
+    private Collection $tasksAfaire;
+
     public function __construct()
     {
 
         $this->createdAt = new \DateTime();
+        $this->taches = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
+        $this->tasksAfaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,5 +170,95 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTaches(): Collection
+    {
+        return $this->taches;
+    }
+
+    public function addTach(Task $tach): static
+    {
+        if (!$this->taches->contains($tach)) {
+            $this->taches->add($tach);
+           
+        }
+
+        return $this;
+    }
+
+    public function removeTach(Task $tach): static
+    {
+        if ($this->taches->removeElement($tach)) {
+            // set the owning side to null (unless already changed)
+           
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setCreater($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getCreater() === $this) {
+                $task->setCreater(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasksAfaire(): Collection
+    {
+        return $this->tasksAfaire;
+    }
+
+    public function addTasksAfaire(Task $tasksAfaire): static
+    {
+        if (!$this->tasksAfaire->contains($tasksAfaire)) {
+            $this->tasksAfaire->add($tasksAfaire);
+            $tasksAfaire->addOperateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTasksAfaire(Task $tasksAfaire): static
+    {
+        if ($this->tasksAfaire->removeElement($tasksAfaire)) {
+            $tasksAfaire->removeOperateur($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nickname;
     }
 }

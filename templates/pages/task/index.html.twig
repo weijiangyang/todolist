@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% block metades %}
+<meta name="description" content="">
+{% endblock %}
+{% block title %}App - Mes tâches {% endblock %}
+{% block stylesheets %}
+{{ parent()}}
+<style>
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid bg-white border-rounded rounded-3 px-5 py-3 my-5" style="width:95%">
+    <h1 class="mt-4">To do list</h1>
+    {% for message in app.flashes('success') %}
+    <p class="alert alert-success">{{ message }}</p>
+    {% endfor %}
+    <div><a href="{{ path('task_new') }}" class="btn btn-primary btn-sm my-4 ">Créer une nouvelle tâche</a></div>
+
+    {# {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+
+    {% endfor %} #}
+    {# {% for message in app.flashes('warning') %}
+    <div class="alert alert-warning">
+        {{ message }}
+    </div> #}
+
+    {# {% endfor %} #}
+    {% if tasks|length > 0 %}
+    <div class="count mb-4 ">
+
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="reponsive-header">
+                <tr style="border-bottom:3px solid orange">
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+
+                    <th scope="col">Status</th>
+                    <th scope="col">Priority</th>
+
+                    <th scope="col">Crée à </th>
+                    <th scope="col">Date limite</th>
+                    <th scope="col">Modifié à </th>
+                    <th scope="col">Voir</th>
+                    <th scope="col">Editer</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                {% if task.status.name is not same as 'fini' %}
+                {% if app.user in task.operateurs or task.operateurs|length is same as 0 %}
+                
+                <tr class="table-light"></tr>
+
+
+                <td>{{ task.id }}</td>
+                <td class="fw-bold" style="color:firebrick; font-size:1.1rem">{{ task.name }}</td>
+
+
+                <td style="color: rgb(209, 105, 20); font-weight:700">{{ task.status }}</td>
+
+
+                <td>{{ task.priority }}</td>
+
+                <td>{{ task.createdAt | date('d/m/Y') }}</td>
+                <td>{{ task.finishAt | date('d/m/Y') }}</td>
+                <td>{{ task.updatedAt | date('d/m/Y') }}</td>
+                <td><a href="{{ path('task_show',{'id':task.id}) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i></a></td>
+                <td><a href="{{ path('task_edit',{'id':task.id}) }}" class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    Il n'y a pas de task à faire
+    {% endif %}
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent()}}
+<script>
+
+</script>
+{% endblock %}

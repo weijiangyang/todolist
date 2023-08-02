@@ -1,0 +1,99 @@
+{% extends "base.html.twig" %}
+{% block metades %}
+<meta name="description" content="la création  d'une recette sur l'appRecette par vous-même">
+{% endblock %}
+{% block title %}
+Création d'une recette
+{% endblock %}
+{% block stylesheets %}
+{{ parent()}}
+<style>
+    
+</style>
+{% endblock %}
+{% block body %}
+<div class="container  bg-white border-rounded rounded-3 px-5 py-3 my-5" style="max-width:800px">
+    <h1>Création d'une tâche</h1>
+   
+    {{ form_start(form) }}
+
+    <div class="form-group my-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.name)}}
+        </div>
+
+    </div>
+    <div class="form-group my-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.description)}}
+        </div>
+
+    </div>
+
+    <div class="form-group my-3">
+        {{ form_label(form.finishAt) }}
+        {{ form_widget(form.finishAt)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.finishAt)}}
+        </div>
+
+    </div>
+
+    <div class="form-group my-3">
+        {{ form_label(form.category) }}
+        {{ form_widget(form.category)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.category)}}
+        </div>
+    
+    </div>
+
+    <div class="form-group my-3">
+        {{ form_label(form.status) }}
+        {{ form_widget(form.status)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.status)}}
+        </div>
+    
+    </div>
+
+    <div class="form-group my-3">
+        {{ form_label(form.priority) }}
+        {{ form_widget(form.priority)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.priority)}}
+        </div>
+    
+    </div>
+    
+
+
+
+    <div class="form-group my-3">
+        {{ form_label(form.operateurs) }}
+        {{ form_widget(form.operateurs)}}
+        <div class="form-error text-danger">
+            {{ form_errors(form.operateurs)}}
+        </div>
+
+    </div>
+
+    
+
+    <div class="form-group my-3">
+        {{ form_row(form._token) }}
+
+    </div>
+
+
+    {{ form_end(form) }}
+
+
+</div>
+</div>
+
+{% endblock %}

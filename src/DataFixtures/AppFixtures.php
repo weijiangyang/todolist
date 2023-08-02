@@ -88,11 +88,16 @@ class AppFixtures extends Fixture
             
             $task->setName($this->faker->word())
                 ->setDescription($this->faker->text())
+                ->setCreater($users[mt_rand(0, count($users) - 1)])
                 ->setCategory($categories[array_rand($categories)])
                 ->setPriority($priorites[array_rand($priorites)])
                 ->setStatus($statuss[array_rand($statuss)])
                 ->setFinishAt($this->faker->dateTimeBetween('-1 day', '+1 week'));
-
+            for ($k = 0; $k < mt_rand(1, 5); $k++) {
+                $task->addOperateur($users[mt_rand(0, count($users) - 1)]);
+            }
+                
+                
             $manager->persist(($task));
        }
 

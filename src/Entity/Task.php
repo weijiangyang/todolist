@@ -2,15 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
 use DateTime;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[UniqueEntity('name')]
+#[ORM\HasLifecycleCallbacks()]
 class Task
 {
     #[ORM\Id]
@@ -46,11 +49,30 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'taches')]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $creater = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tasksAfaire')]
+    private Collection $operateurs;
+
+    
+
     public function __construct()
     {
       
         $this->createdAt = new \DateTime();
+        $this->operateurs = new ArrayCollection();
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {
@@ -157,4 +179,42 @@ class Task
 
         return $this;
     }
+
+    public function getCreater(): ?User
+    {
+        return $this->creater;
+    }
+
+    public function setCreater(?User $creater): static
+    {
+        $this->creater = $creater;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getOperateurs(): Collection
+    {
+        return $this->operateurs;
+    }
+
+    public function addOperateur(User $operateur): static
+    {
+        if (!$this->operateurs->contains($operateur)) {
+            $this->operateurs->add($operateur);
+        }
+
+        return $this;
+    }
+
+    public function removeOperateur(User $operateur): static
+    {
+        $this->operateurs->removeElement($operateur);
+
+        return $this;
+    }
+
+   
 }
