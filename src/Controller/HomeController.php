@@ -14,8 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * This function allows to display all tasks which are distributed to the current user
-     * and all the tasks which are distributed to nobody.
+     * This function allows to display the homepage for an introduction of this application
      * Also, it allows to discover the tasks which have exceed the time limite and send emails to all the concerning 
      * users for reminding. 
      *
